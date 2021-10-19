@@ -665,7 +665,8 @@ namespace FinallyBeyondTheTime
 				}
 			}
 			this.PosShuffle();
-			if (this.phase < 9) {
+			// Cleanup is called first, so we call is a phase "early"
+			if (this.phase < 8) {
 				int emotionTotalCoinNumber = Singleton<StageController>.Instance.GetCurrentWaveModel().team.emotionTotalCoinNumberWithBonus;
 				Singleton<StageController>.Instance.GetCurrentStageFloorModel().team.emotionTotalBonus = emotionTotalCoinNumber + 999;
 			} else {
