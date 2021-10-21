@@ -494,8 +494,9 @@ namespace FinallyBeyondTheTime
 								battleUnitModel.index = 0;
 								SingletonBehavior<UICharacterRenderer>.Instance.SetCharacter(battleUnitModel.UnitData.unitData, (5), true);
 							}
+						} else {
+							SingletonBehavior<UICharacterRenderer>.Instance.SetCharacter(battleUnitModel.UnitData.unitData, (battleUnitModel.index+8), true);
 						}
-						SingletonBehavior<UICharacterRenderer>.Instance.SetCharacter(battleUnitModel.UnitData.unitData, (battleUnitModel.index), true);
 						battleUnitModel.moveDetail.ReturnToFormationByBlink(true);
 					}
 					// We refresh the UI after the registrations are all done
@@ -648,24 +649,19 @@ namespace FinallyBeyondTheTime
 							battleUnitModel.index = 4;
 						}
 					}
-				} else {
-					if (FinnalConfig.HarmonyMode != 2) {
-						if (i < 4 || psuedo == false && i == 4) {
-							battleUnitModel.index = i;
-							SingletonBehavior<UICharacterRenderer>.Instance.SetCharacter(battleUnitModel.UnitData.unitData, (i+5), true);
-							i++;
-						} else {
-							battleUnitModel.index = 0;
-							SingletonBehavior<UICharacterRenderer>.Instance.SetCharacter(battleUnitModel.UnitData.unitData, (5), true);
-						}
-					} else {
+				} else if (FinnalConfig.HarmonyMode != 2) {
+					if (i < 4 || psuedo == false && i == 4) {
+						battleUnitModel.index = i;
 						SingletonBehavior<UICharacterRenderer>.Instance.SetCharacter(battleUnitModel.UnitData.unitData, (i+5), true);
 						i++;
+					} else {
+						battleUnitModel.index = 0;
+						SingletonBehavior<UICharacterRenderer>.Instance.SetCharacter(battleUnitModel.UnitData.unitData, (5), true);
 					}
 				}
 			}
 			this.PosShuffle();
-			// Cleanup is called first, so we call is a phase "early"
+			// Cleanup is called first, so we call it a phase "early"
 			if (this.phase < 8) {
 				int emotionTotalCoinNumber = Singleton<StageController>.Instance.GetCurrentWaveModel().team.emotionTotalCoinNumberWithBonus;
 				Singleton<StageController>.Instance.GetCurrentStageFloorModel().team.emotionTotalBonus = emotionTotalCoinNumber + 999;
