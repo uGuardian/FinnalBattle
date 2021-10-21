@@ -1,7 +1,9 @@
+using System.Diagnostics;
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
+using abcdcode_brawl_MOD;
 
 namespace FinallyBeyondTheTime {
 	public class FinallHarmony {
@@ -17,7 +19,7 @@ namespace FinallyBeyondTheTime {
 				assembly.Add(a.GetName().Name);
 			}
 			if (assembly.Contains("BaseMod")) {
-				Debug.Log("Finall: BaseMod Found");
+				UnityEngine.Debug.Log("Finall: BaseMod Found");
 				FinnalConfig.HarmonyMode = 2;
 			}
 		}
@@ -61,4 +63,20 @@ namespace FinallyBeyondTheTime {
     		}
     	}
     }
+
+	[HarmonyPatch(typeof(RencounterManager), "EndRencounter")]
+	class BrawlModPatch {
+		public static void Postfix(RencounterManager __instance) {
+			if (Harmony.HasAnyPatches("LOR.abcdcode.Brawl")) {
+				BrawlMod.Fix(__instance);
+			}
+		}
+	}
+	internal static class BrawlMod {
+		internal static void Fix(RencounterManager instance) {
+			instance.EndRencounterForcely();
+			BrawlInitializer.Rencounters.Remove(instance);
+			UnityEngine.Object.DestroyImmediate(instance.gameObject);
+		}
+	}
 }

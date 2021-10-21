@@ -13,6 +13,9 @@
     <Reference Include="BaseMod">
       <HintPath>..\libs\BaseMod.dll</HintPath>
     </Reference>
+    <Reference Include="BrawlMod">
+      <HintPath>..\libs\abcdcode_brawl_MOD.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib">
       <HintPath>..\libs\Managed\mscorlib.dll</HintPath>
     </Reference>
