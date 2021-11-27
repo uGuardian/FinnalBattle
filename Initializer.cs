@@ -12,12 +12,17 @@ namespace FinallyBeyondTheTime {
 			foreach (var a in AppDomain.CurrentDomain.GetAssemblies()) {
 				assembly.Add(a.GetName().Name);
 			}
+			#if NoHarmony
+			#warning Compiled with NoHarmony debug option
+			Debug.LogWarning("Finall: Compiled with NoHarmony debug option");
+			#else
 			if (assembly.Contains("0Harmony")) {
 				Debug.Log("Finall: Harmony Found");
 				FinallHarmony.Load();
 			} else {
 				Debug.Log("Finall: Harmony Unavailable");
             }
+			#endif
 
 			// Old to new config migration
 			string oldConfig = SaveManager.GetFullPath("Finnal.ini");
