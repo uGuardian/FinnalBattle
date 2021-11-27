@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
@@ -32,38 +31,34 @@ namespace FinallyBeyondTheTime {
         public static Exception Init_Finalizer(Exception __exception) {
 			if (Singleton<StageController>.Instance.EnemyStageManager is EnemyTeamStageManager_UltimaAgain) {
     			return null;
-			} else {
-				return __exception;
 			}
-    	}
+            return __exception;
+        }
 		[HarmonyFinalizer]
 		[HarmonyPatch("StartMoving")]
         public static Exception StartMoving_Finalizer(Exception __exception) {
 			if (Singleton<StageController>.Instance.EnemyStageManager is EnemyTeamStageManager_UltimaAgain) {
     			return null;
-			} else {
-				return __exception;
 			}
-    	}
+            return __exception;
+        }
 		[HarmonyFinalizer]
 		[HarmonyPatch(typeof(BattleEmotionCoinUI), "Init")]
         public static Exception Init_Finalizer2(Exception __exception) {
 			if (Singleton<StageController>.Instance.EnemyStageManager is EnemyTeamStageManager_UltimaAgain) {
     			return null;
-			} else {
-				return __exception;
 			}
-    	}
+            return __exception;
+        }
     }
 	[HarmonyPatch(typeof(RencounterManager), "StartRencounter")]
     class EnableNoDelay {
         public static void Postfix(RencounterManager __instance) {
-    		if (FinnalConfig.Instance.DiceSpeedUp == true && Singleton<StageController>.Instance.EnemyStageManager is EnemyTeamStageManager_UltimaAgain) {
+    		if (FinnalConfig.Instance.DiceSpeedUp && Singleton<StageController>.Instance.EnemyStageManager is EnemyTeamStageManager_UltimaAgain) {
     			__instance.SetNodelay(true);
     		}
     	}
     }
-
 	[HarmonyPatch(typeof(RencounterManager), "EndRencounter")]
 	class BrawlModPatch {
 		public static void Postfix(RencounterManager __instance) {
@@ -77,6 +72,16 @@ namespace FinallyBeyondTheTime {
 			instance.EndRencounterForcely();
 			BrawlInitializer.Rencounters.Remove(instance);
 			UnityEngine.Object.DestroyImmediate(instance.gameObject);
+		}
+	}
+	[HarmonyPatch(typeof(BattleUnitTargetArrowManagerUI), "ShowTargetLines")]
+	class ShowTargetLinesPatch {
+		// This patch is always applied because when it occurs it's always a bug.
+		public static Exception Finalizer(Exception __exception) {
+			if (!(__exception is ArgumentOutOfRangeException)) {
+				Debug.LogException(__exception);
+			}
+			return null;
 		}
 	}
 }
