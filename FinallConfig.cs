@@ -17,6 +17,7 @@ namespace FinallyBeyondTheTime {
 	}
 	internal class OldConfig {
 		internal void Load() {
+			Directory.CreateDirectory(SaveManager.GetFullPath("ModConfigs"));
 			if (File.Exists(configFile)) {
 				try {
 					JsonUtility.FromJsonOverwrite(File.ReadAllText(configFile), FinnalConfig.Instance);
@@ -26,10 +27,10 @@ namespace FinallyBeyondTheTime {
 					Singleton<ModContentManager>.Instance.AddErrorLog("Finnal Battle: Finnal.ini invalid, resetting it");
 				}
 			}
-            File.WriteAllText(configFile, JsonUtility.ToJson(FinnalConfig.Instance, true));
+            File.WriteAllText(configFile, JsonUtility.ToJson(FinnalConfig.Instance, prettyPrint: true));
 	    }
 		internal void EchoAll() {
-			Debug.Log("Finall: "+JsonUtility.ToJson(FinnalConfig.Instance, true));
+			Debug.Log("Finall: "+JsonUtility.ToJson(FinnalConfig.Instance, prettyPrint: true));
 			Debug.Log("Finall: HarmonyMode = "+FinnalConfig.HarmonyMode);
 		}
         internal string configFile = SaveManager.GetFullPath("ModConfigs\\Finnal.ini");
