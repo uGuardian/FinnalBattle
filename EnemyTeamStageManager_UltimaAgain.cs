@@ -48,6 +48,10 @@ namespace FinallyBeyondTheTime
 				this.CleanUp(psuedo: true);
 			}
 			this.CheckPhase();
+			// If the harmony finalizer is not implemented, disable enemy targeting toggles to prevent a soft-lock
+			if (FinnalConfig.HarmonyMode == 0) {
+				SingletonBehavior<BattleManagerUI>.Instance.ui_emotionInfoBar.targetingToggle.SetToggle(0, false);
+			}
 		}
 
 		public override bool IsStageFinishable()
@@ -499,8 +503,10 @@ namespace FinallyBeyondTheTime
 						}
 						battleUnitModel.moveDetail.ReturnToFormationByBlink(ignoreView: true);
 					}
-					// We refresh the UI after the registrations are all done
-					BattleObjectManager.instance.InitUI();
+					// We refresh the UI after the registrations are all done, in a try loop due to an error.
+					try {
+						BattleObjectManager.instance.InitUI();
+					} catch (IndexOutOfRangeException) {}
 				}
 				else
 				{
@@ -581,8 +587,10 @@ namespace FinallyBeyondTheTime
 						this.MapChange();
 					}
 				}
-				// Refresh UI after floor setup is complete
-				BattleObjectManager.instance.InitUI();
+				// Refresh UI after floor setup is complete, in a try loop due to an error.
+				try {
+					BattleObjectManager.instance.InitUI();
+				} catch (IndexOutOfRangeException) {}
 				Debug.Log("Finall: Floor Setup Complete");
 			}
 			bool angelaappears = this._angelaappears;
@@ -673,7 +681,10 @@ namespace FinallyBeyondTheTime
 			SingletonBehavior<HexagonalMapManager>.Instance.ResetMapSetting();
 			SingletonBehavior<HexagonalMapManager>.Instance.OnRoundStart();
 			SingletonBehavior<BattleCamManager>.Instance.ResetCamSetting();
-			BattleObjectManager.instance.InitUI();
+			// In a try loop due to an error.
+			try {
+				BattleObjectManager.instance.InitUI();
+			} catch (IndexOutOfRangeException) {}
 			Debug.Log("Finall: Cleaning Finished");
 		}
 		private void MapChangeStart() {

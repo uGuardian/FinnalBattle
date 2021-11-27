@@ -42,14 +42,14 @@ namespace FinallyBeyondTheTime {
 			}
             return __exception;
         }
-		[HarmonyFinalizer]
-		[HarmonyPatch(typeof(BattleEmotionCoinUI), "Init")]
-        public static Exception Init_Finalizer2(Exception __exception) {
-			if (Singleton<StageController>.Instance.EnemyStageManager is EnemyTeamStageManager_UltimaAgain) {
-    			return null;
-			}
-            return __exception;
-        }
+		// [HarmonyFinalizer]
+		// [HarmonyPatch(typeof(BattleEmotionCoinUI), "Init")]
+        // public static Exception Init_Finalizer2(Exception __exception) {
+		// 	if (Singleton<StageController>.Instance.EnemyStageManager is EnemyTeamStageManager_UltimaAgain) {
+    	// 		return null;
+		// 	}
+        //     return __exception;
+        // }
     }
 	[HarmonyPatch(typeof(RencounterManager), "StartRencounter")]
     class EnableNoDelay {
@@ -78,7 +78,7 @@ namespace FinallyBeyondTheTime {
 	class ShowTargetLinesPatch {
 		// This patch is always applied because when it occurs it's always a bug.
 		public static Exception Finalizer(Exception __exception) {
-			if (!(__exception is ArgumentOutOfRangeException)) {
+			if ((__exception != null) && !(__exception is ArgumentOutOfRangeException)) {
 				Debug.LogException(__exception);
 			}
 			return null;
