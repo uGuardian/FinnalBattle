@@ -124,17 +124,6 @@
     <Reference Include="XGamingRuntime">
       <HintPath>..\libs\Managed\XGamingRuntime.dll</HintPath>
     </Reference>
-    <Content Include="EnemyTeamStageManager_UltimaAgain.cs" />
-    <Content Include="PassiveAbility_170101.cs" />
-    <Content Include="PassiveAbility_170201.cs" />
-    <Content Include="PassiveAbility_170211.cs" />
-    <Content Include="PassiveAbility_180001.cs" />
-    <Content Include="PassiveAbility_180002.cs" />
-    <Content Include="PassiveAbility_250227.cs" />
-    <Content Include="Returned.cs" />
-    <Content Include="Harmony_Optional.cs" />
-    <Content Include="Initializer.cs" />
-    <Content Include="FinnalConfig.cs" />
     <ProjectReference Include="..\ConfigAPI\ConfigAPI.csproj" />
   </ItemGroup>
 </Project>

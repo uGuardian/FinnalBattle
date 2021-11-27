@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+#pragma warning disable IDE0051,IDE0059,IDE0051
 
 namespace FinallyBeyondTheTime
 {
@@ -44,13 +45,14 @@ namespace FinallyBeyondTheTime
 		{
 			if (!(this.owner.UnitData.floorBattleData.param2 > 0))
 			{
-				if (this._teleportReady || this.owner.hp <= (float)this._teleportCondition)
+				if (this._teleportReady || this.owner.hp <= (float)_teleportCondition)
 				{
 					this.owner.breakDetail.RecoverBreakLife(this.owner.MaxBreakLife, false);
 					this.owner.breakDetail.nextTurnBreak = false;
 					this.owner.breakDetail.RecoverBreak(this.owner.breakDetail.GetDefaultBreakGauge());
 					this.owner.UnitData.floorBattleData.param2 = 1;
 					// if (Singleton<StageController>.Instance.GetStageModel().ClassInfo.id != 600013)
+					#pragma warning disable CS0162
 					if (false)
 					{
 						List<StageLibraryFloorModel> availableFloorList = Singleton<StageController>.Instance.GetStageModel().GetAvailableFloorList();
@@ -63,6 +65,7 @@ namespace FinallyBeyondTheTime
 							Singleton<StageController>.Instance.ChangeFloorForcely(sephirah, this.owner);
 						}
 					}
+					#pragma warning restore CS0162
 				}
 			}
 		}
@@ -92,8 +95,8 @@ namespace FinallyBeyondTheTime
 			}
 			else
 			{
-				// if (!(Singleton<StageController>.Instance.GetStageModel().ClassInfo.id != 600013 || (!this._teleportReady && this.owner.hp > (float)this._teleportCondition)))
-				if (!(false || (!this._teleportReady && this.owner.hp > (float)this._teleportCondition)))
+				// if (!(Singleton<StageController>.Instance.GetStageModel().ClassInfo.id != 600013 || (!this._teleportReady && this.owner.hp > (float)_teleportCondition)))
+				if (!(false || (!this._teleportReady && this.owner.hp > (float)_teleportCondition)))
 				{
 					if (this._elapsedTimeTeleport < Mathf.Epsilon)
 					{
@@ -288,9 +291,9 @@ namespace FinallyBeyondTheTime
 		public override bool BeforeTakeDamage(BattleUnitModel attacker, int dmg)
 		{
 			this._dmgReduction = 0;
-			if (this.owner.UnitData.floorBattleData.param2 <= 0 && (this.owner.hp <= (float)this._teleportCondition || this.owner.hp - (float)dmg <= (float)this._teleportCondition))
+			if (this.owner.UnitData.floorBattleData.param2 <= 0 && (this.owner.hp <= (float)_teleportCondition || this.owner.hp - (float)dmg <= (float)_teleportCondition))
 			{
-				this._dmgReduction = (int)((float)this._teleportCondition - (this.owner.hp - (float)dmg));
+				this._dmgReduction = (int)((float)_teleportCondition - (this.owner.hp - (float)dmg));
 				this._teleportReady = true;
 			}
 			return base.BeforeTakeDamage(attacker, dmg);
@@ -299,7 +302,7 @@ namespace FinallyBeyondTheTime
 		public override int GetDamageReductionAll()
 		{
 			int result;
-			if (this.owner.UnitData.floorBattleData.param2 <= 0 && this.owner.hp <= (float)this._teleportCondition)
+			if (this.owner.UnitData.floorBattleData.param2 <= 0 && this.owner.hp <= (float)_teleportCondition)
 			{
 				result = 9999;
 				this._teleportReady = true;
@@ -318,7 +321,7 @@ namespace FinallyBeyondTheTime
 
 		private float _elapsedTimeTeleport;
 
-		private int _teleportCondition = 350;
+		private const int _teleportCondition = 350;
 
 		private int _patternCount;
 

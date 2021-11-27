@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+#pragma warning disable IDE0051,IDE0059,IDE0051
 
 namespace FinallyBeyondTheTime
 {
@@ -21,6 +22,7 @@ namespace FinallyBeyondTheTime
 					this.owner.allyCardDetail.ExhaustAllCards();
 					int num = -1;
 					// if (Singleton<StageController>.Instance.GetStageModel().ClassInfo.id != 600013)
+					#pragma warning disable CS0162
 					if (false)
 					{
 						EnemyTeamStageManager enemyStageManager = Singleton<StageController>.Instance.EnemyStageManager;
@@ -29,6 +31,7 @@ namespace FinallyBeyondTheTime
 							num = (enemyStageManager as EnemyTeamStageManager_BlackSilence).thirdPhaseElapsed;
 						}
 					}
+					#pragma warning restore CS0162
 					else
 					{
 						num = RandomUtil.Range(0, 4);

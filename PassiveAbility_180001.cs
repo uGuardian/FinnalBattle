@@ -1,4 +1,5 @@
 using System;
+#pragma warning disable IDE0051,IDE0059,IDE0051
 
 namespace FinallyBeyondTheTime
 {
@@ -46,6 +47,7 @@ namespace FinallyBeyondTheTime
 		public override void OnWaveStart()
 		{
 			// if (Singleton<StageController>.Instance.GetStageModel().ClassInfo.id != 600013)
+			#pragma warning disable CS0162
 			if (false)
 			{
 				this._stageManager = (Singleton<StageController>.Instance.EnemyStageManager as EnemyTeamStageManager_FinalFinal);
@@ -53,6 +55,7 @@ namespace FinallyBeyondTheTime
 			this.SetStartingCards();
 			this.owner.view.EnableStatNumber(false);
 			this.owner.RecoverHP(this.owner.MaxHp);
+			#pragma warning restore CS0162
 		}
 
 		public override void OnRoundStart()
@@ -84,6 +87,7 @@ namespace FinallyBeyondTheTime
 		public override void OnRoundStartAfter()
 		{
 			// if (Singleton<StageController>.Instance.GetStageModel().ClassInfo.id != 600013)
+			#pragma warning disable CS0162
 			if (false)
 			{
 				this.ResetPriorityAdder();
@@ -163,18 +167,21 @@ namespace FinallyBeyondTheTime
 					}
 				}
 			}
+			#pragma warning restore CS0162
 		}
 
 		public override BattleUnitModel ChangeAttackTarget(BattleDiceCardModel card, int idx)
 		{
 			// if (Singleton<StageController>.Instance.GetStageModel().ClassInfo.id != 600013)
 			if (false)
+			#pragma warning disable CS0162
 			{
 				if (this._stageManager != null && this._stageManager.GetBinahUnit() == null)
 				{
 					return this._stageManager.GetGeburahUnit();
 				}
 			}
+			#pragma warning restore CS0162
 			return base.ChangeAttackTarget(card, idx);
 		}
 
@@ -199,6 +206,8 @@ namespace FinallyBeyondTheTime
 
 		private EnemyTeamStageManager_FinalFinal _stageManager;
 
+		#pragma warning disable CS0414
 		private int _currentAdder = 1;
+		#pragma warning restore CS0162
 	}
 }

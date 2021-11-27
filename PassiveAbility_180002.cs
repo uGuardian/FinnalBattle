@@ -1,4 +1,5 @@
 using System;
+#pragma warning disable IDE0051,IDE0059,IDE0051
 
 namespace FinallyBeyondTheTime
 {
@@ -37,9 +38,11 @@ namespace FinallyBeyondTheTime
 		{
 			// if (Singleton<StageController>.Instance.GetStageModel().ClassInfo.id != 600013)
 			if (false)
+			#pragma warning disable CS0162
 			{
 				this._stageManager = (Singleton<StageController>.Instance.EnemyStageManager as EnemyTeamStageManager_FinalFinal);
 			}
+			#pragma warning restore CS0162
 			this.SetStartingCards();
 			this.owner.view.EnableStatNumber(false);
 			this.owner.RecoverHP(this.owner.MaxHp);
@@ -75,6 +78,7 @@ namespace FinallyBeyondTheTime
 		{
 			// if (Singleton<StageController>.Instance.GetStageModel().ClassInfo.id != 600013)
 			if (false)
+			#pragma warning disable CS0162
 			{
 				this.ResetPriorityAdder();
 				if (this._stageManager != null)
@@ -164,6 +168,7 @@ namespace FinallyBeyondTheTime
 					}
 				}
 			}
+			#pragma warning restore CS0162
 		}
 
 		private void PrepareCard(int id)
@@ -179,12 +184,14 @@ namespace FinallyBeyondTheTime
 		{
 			// if (Singleton<StageController>.Instance.GetStageModel().ClassInfo.id != 600013)
 			if (false)
+			#pragma warning disable CS0162
 			{
 				if (this._stageManager != null && this._stageManager.GetBinahUnit() == null)
 				{
 					return this._stageManager.GetRolandUnit();
 				}
 			}
+			#pragma warning restore CS0162
 			return base.ChangeAttackTarget(card, idx);
 		}
 

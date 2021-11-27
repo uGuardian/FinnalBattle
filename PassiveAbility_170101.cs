@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+#pragma warning disable IDE0051,IDE0059,IDE0051
 
 namespace FinallyBeyondTheTime
 {
