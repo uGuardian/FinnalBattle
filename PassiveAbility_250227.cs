@@ -1,3 +1,4 @@
+using System.Security.AccessControl;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -7,7 +8,7 @@ namespace FinallyBeyondTheTime
 {
 	public class PassiveAbility_250227_Finnal : PassiveAbility_250227
 	{
-		public override void OnRoundStart()
+		public override void OnRoundEndTheLast()
 		{
 			if (owner.UnitData.floorBattleData.param2 <= 0 && (TeleportReady || owner.hp <= (float)TeleportCondition))
 			{
@@ -51,10 +52,12 @@ namespace FinallyBeyondTheTime
 				owner.view.EnableView(returned);
 				viewChanged = true;
 			}
-			if (_elapsedTimeTeleport > 2.0f) {
+			if (_elapsedTimeTeleport > 1.1f) {
 				if (!returned) {
 					returned = true;
-					_teleported = true;
+					BattleObjectManager.instance.UnregisterUnit(owner);
+					SingletonBehavior<HexagonalMapManager>.Instance.ResetMapSetting();
+					SingletonBehavior<HexagonalMapManager>.Instance.OnRoundStart();
 				} else {
 					returned = false;
 				}
@@ -63,19 +66,11 @@ namespace FinallyBeyondTheTime
 				UnityEngine.Object.Destroy(timerComponent);
 			}
 		}
-		public override void OnRoundEndTheLast() {
-			if (_teleported) {
-				_teleported = false;
-				BattleObjectManager.instance.UnregisterUnit(owner);
-			}
-		}
-
 		private bool returned = false;
 		private bool viewChanged = false;
         private int TeleportCondition => (int)GetType().BaseType.GetField("_teleportCondition", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
         private bool TeleportReady => (bool)GetType().BaseType.GetField("_teleportReady", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
         private float _elapsedTimeTeleport = 0f;
-		private bool _teleported = false;
 		private TeleportTimer timerComponent;
 	}
 }

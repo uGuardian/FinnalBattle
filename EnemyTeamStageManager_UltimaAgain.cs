@@ -10,7 +10,12 @@ namespace FinallyBeyondTheTime
 	{
 		public override void OnWaveStart()
 		{
+			#if DEBUG_PhaseSkip
+			#warning Compiled with PhaseSkip debug option
+			this.phase = 6;
+			#else
 			this.phase = 0;
+			#endif
 			this.currentFloor = Singleton<StageController>.Instance.GetCurrentStageFloorModel().Sephirah;
 			Debug.Log("Finall: Initial floor is " + this.currentFloor);
 			this._angelaappears = false;
