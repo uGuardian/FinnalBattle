@@ -830,98 +830,32 @@ namespace FinallyBeyondTheTime
 			}
 		}
 		private void PassiveReplacer(BattleUnitModel battleUnitModel) {
-			// PassiveAbilityBase[] passives = new PassiveAbilityBase[6];
-			// passives[0] = new PassiveAbility_170101();
-			// passives[1] = new PassiveAbility_170201();
-			// passives[2] = typeof(PassiveAbility_170211);
-			// passives[3] = typeof(PassiveAbility_180001);
-			// passives[4] = typeof(PassiveAbility_180002);
-			// passives[5] = typeof(PassiveAbility_250227);
-
-			try {
-				PassiveAbilityBase oldPassive1 = battleUnitModel.passiveDetail.PassiveList.Find((PassiveAbilityBase x) => x is PassiveAbility_170101) as PassiveAbility_170101;
-				if (oldPassive1 != null) {
-					Debug.Log("Finall: PassiveReplacer: Replacing passive 170101 with Finnal version.");
-					battleUnitModel.passiveDetail.DestroyPassive(oldPassive1);
-					var newPassive1 = battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_170101_Finnal());
-					newPassive1.OnWaveStart();
+			foreach (var passive in battleUnitModel.passiveDetail.PassiveList) {
+				if (passives.TryGetValue(passive.GetType(), out var replacement)) {
+					try {
+						battleUnitModel.passiveDetail.DestroyPassive(passive);
+						if (replacement is null) {
+							Debug.Log($"Finall: PassiveReplacer: Removing {passive}.");
+							continue;
+						}
+						Debug.Log($"Finall: PassiveReplacer: Replacing {passive} with Finnal version.");
+						var newPassive = battleUnitModel.passiveDetail.AddPassive(Activator.CreateInstance(replacement) as PassiveAbilityBase);
+						newPassive.OnWaveStart();
+					} catch (Exception ex) {
+						Debug.LogException(ex);
+					}
 				}
-			}
-			catch (ArgumentNullException) {
-				// Debug.LogError("Finall: PassiveReplacer: Passive 170101 not found.");
-			}
-			try {
-				PassiveAbilityBase oldPassive2 = battleUnitModel.passiveDetail.PassiveList.Find((PassiveAbilityBase x) => x is PassiveAbility_170201);
-				if (oldPassive2 != null) {
-					Debug.Log("Finall: PassiveReplacer: Replacing passive 170201 with Finnal version.");
-					battleUnitModel.passiveDetail.DestroyPassive(oldPassive2);
-					var newPassive2 = battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_170201_Finnal());
-					newPassive2.OnWaveStart();
-				}
-			}
-			catch (ArgumentNullException) {
-				// Debug.LogError("Finall: PassiveReplacer: Passive 170201 not found.");
-			}
-			try {
-				PassiveAbilityBase oldPassive3 = battleUnitModel.passiveDetail.PassiveList.Find((PassiveAbilityBase x) => x is PassiveAbility_170211);
-				if (oldPassive3 != null) {
-					Debug.Log("Finall: PassiveReplacer: Replacing passive 170211 with Finnal version.");
-					battleUnitModel.passiveDetail.DestroyPassive(oldPassive3);
-					var newPassive3 = battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_170211_Finnal());
-					newPassive3.OnWaveStart();
-				}
-			}
-			catch (ArgumentNullException) {
-				// Debug.LogError("Finall: PassiveReplacer: Passive 170211 not found.");
-			}
-			try {
-				PassiveAbilityBase oldPassive4 = battleUnitModel.passiveDetail.PassiveList.Find((PassiveAbilityBase x) => x is PassiveAbility_180001);
-				if (oldPassive4 != null) {
-					Debug.Log("Finall: PassiveReplacer: Replacing passive 180001 with Finnal version.");
-					battleUnitModel.passiveDetail.DestroyPassive(oldPassive4);
-					var newPassive4 = battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_180001_Finnal());
-					newPassive4.OnWaveStart();
-				}
-			}
-			catch (ArgumentNullException) {
-				// Debug.LogError("Finall: PassiveReplacer: Passive 180001 not found.");
-			}
-			try {
-				PassiveAbilityBase oldPassive5 = battleUnitModel.passiveDetail.PassiveList.Find((PassiveAbilityBase x) => x is PassiveAbility_180002);
-				if (oldPassive5 != null) {
-					Debug.Log("Finall: PassiveReplacer: Replacing passive 180002 with Finnal version.");
-					battleUnitModel.passiveDetail.DestroyPassive(oldPassive5);
-					var newPassive5 = battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_180002_Finnal());
-					newPassive5.OnWaveStart();
-				}
-			}
-			catch (ArgumentNullException) {
-				// Debug.LogError("Finall: PassiveReplacer: Passive 180002 not found.");
-			}
-			try {
-				PassiveAbilityBase oldPassivePT = battleUnitModel.passiveDetail.PassiveList.Find((PassiveAbilityBase x) => x is PassiveAbility_250227);
-				if (oldPassivePT != null) {
-					Debug.Log("Finall: PassiveReplacer: Replacing passive 250227 with Finnal version.");
-					var oldTypePT = oldPassivePT.GetType();
-					var newPassivePT = battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_250227_Finnal());
-					battleUnitModel.passiveDetail.DestroyPassive(oldPassivePT);
-					newPassivePT.OnWaveStart();
-				}
-			}
-			catch (Exception ex) {
-				Debug.LogException(ex);
-			}
-			try {
-				PassiveAbilityBase oldPassive7 = battleUnitModel.passiveDetail.PassiveList.Find((PassiveAbilityBase x) => x is PassiveAbility_1410014);
-				if (oldPassive7 != null) {
-					Debug.Log("Finall: PassiveReplacer: Removing passive 1410014.");
-					battleUnitModel.passiveDetail.DestroyPassive(oldPassive7);
-				}
-			}
-			catch (ArgumentNullException) {
-				// Debug.LogError("Finall: PassiveReplacer: Passive 1410014 not found.");
 			}
 		}
+		private readonly Dictionary<Type, Type> passives = new Dictionary<Type, Type>(){
+            {typeof(PassiveAbility_170101), typeof(PassiveAbility_170101_Finnal)},
+            {typeof(PassiveAbility_170201), typeof(PassiveAbility_170201_Finnal)},
+            {typeof(PassiveAbility_170211), typeof(PassiveAbility_170211_Finnal)},
+            {typeof(PassiveAbility_180001), typeof(PassiveAbility_180001_Finnal)},
+            {typeof(PassiveAbility_180002), typeof(PassiveAbility_180002_Finnal)},
+            {typeof(PassiveAbility_250227), typeof(PassiveAbility_250227_Finnal)},
+            {typeof(PassiveAbility_1410014), null},
+        };
 
 		internal BattleUnitModel pt;
 
