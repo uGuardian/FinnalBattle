@@ -713,9 +713,7 @@ namespace FinallyBeyondTheTime
 			// Emulate map related init functions.
 			SingletonBehavior<BattleSceneRoot>.Instance.HideAllFloorMap();
 			SingletonBehavior<BattleSceneRoot>.Instance.InitFloorMap(this.currentFloor);
-			SingletonBehavior<HexagonalMapManager>.Instance.OnRoundStart();
 			Singleton<StageController>.Instance.GetStageModel().GetFloor(this.currentFloor).SetEmotionTeamUnit();
-			SingletonBehavior<HexagonalMapManager>.Instance.ResetMapSetting();
 			SingletonBehavior<BattleCamManager>.Instance.ResetCamSetting();
 			// SingletonBehavior<BattleSoundManager>.Instance.CheckTheme();
 		}
