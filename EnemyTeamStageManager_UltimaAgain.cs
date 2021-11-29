@@ -81,6 +81,13 @@ namespace FinallyBeyondTheTime
 					break;
 				}
 			}
+			// Related to BGM
+			if (this.phase < 9) {
+				int emotionTotalCoinNumber = Singleton<StageController>.Instance.GetCurrentWaveModel().team.emotionTotalCoinNumberWithBonus;
+				Singleton<StageController>.Instance.GetCurrentStageFloorModel().team.emotionTotalBonus = emotionTotalCoinNumber + 999;
+			} else {
+				Singleton<StageController>.Instance.GetCurrentStageFloorModel().team.emotionTotalBonus = 0;
+			}
 		}
 
 		public override void OnRoundStart_After()
@@ -670,14 +677,6 @@ namespace FinallyBeyondTheTime
 				}
 			}
 			this.PosShuffle();
-			// Cleanup is called first, so we call it a phase "early"
-			if (this.phase < 8) {
-				int emotionTotalCoinNumber = Singleton<StageController>.Instance.GetCurrentWaveModel().team.emotionTotalCoinNumberWithBonus;
-				Singleton<StageController>.Instance.GetCurrentStageFloorModel().team.emotionTotalBonus = emotionTotalCoinNumber + 999;
-			} else {
-				Singleton<StageController>.Instance.GetCurrentStageFloorModel().team.emotionTotalBonus = 0;
-			}
-			Singleton<StageController>.Instance.CheckMapChange();
 			// We refresh the UI after the registrations are all done
 			SingletonBehavior<HexagonalMapManager>.Instance.ResetMapSetting();
 			SingletonBehavior<HexagonalMapManager>.Instance.OnRoundStart();
