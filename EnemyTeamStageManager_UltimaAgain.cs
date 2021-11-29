@@ -466,7 +466,7 @@ namespace FinallyBeyondTheTime
 						battleUnitModel.allyCardDetail.DrawCards(4);
 						if (num == 50035)
 						{
-							this.pt = battleUnitModel;
+							pt = battleUnitModel;
 						}
 						if (FinnalConfig.HarmonyMode != 2) {
 							if (index == 4 && !loop) {
@@ -512,16 +512,12 @@ namespace FinallyBeyondTheTime
 				{
 					if (this.phase == 13)
 					{
-						BattleObjectManager.instance.RegisterUnit(this.pt);
-						this.pt.view.EnableView(false);
-						this.pt.bufListDetail.AddBuf(new Returned());
+						BattleObjectManager.instance.RegisterUnit(pt);
+						pt.view.EnableView(false);
 					}
-					else
+					if (this.phase > 13)
 					{
-						if (this.phase > 13)
-						{
-							this._finished = true;
-						}
+						this._finished = true;
 					}
 				}
 			}
@@ -847,7 +843,8 @@ namespace FinallyBeyondTheTime
 				if (oldPassive1 != null) {
 					Debug.Log("Finall: PassiveReplacer: Replacing passive 170101 with Finnal version.");
 					battleUnitModel.passiveDetail.DestroyPassive(oldPassive1);
-					battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_170101_Finnal());
+					var newPassive1 = battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_170101_Finnal());
+					newPassive1.OnWaveStart();
 				}
 			}
 			catch (ArgumentNullException) {
@@ -858,7 +855,8 @@ namespace FinallyBeyondTheTime
 				if (oldPassive2 != null) {
 					Debug.Log("Finall: PassiveReplacer: Replacing passive 170201 with Finnal version.");
 					battleUnitModel.passiveDetail.DestroyPassive(oldPassive2);
-					battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_170201_Finnal());
+					var newPassive2 = battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_170201_Finnal());
+					newPassive2.OnWaveStart();
 				}
 			}
 			catch (ArgumentNullException) {
@@ -869,7 +867,8 @@ namespace FinallyBeyondTheTime
 				if (oldPassive3 != null) {
 					Debug.Log("Finall: PassiveReplacer: Replacing passive 170211 with Finnal version.");
 					battleUnitModel.passiveDetail.DestroyPassive(oldPassive3);
-					battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_170211_Finnal());
+					var newPassive3 = battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_170211_Finnal());
+					newPassive3.OnWaveStart();
 				}
 			}
 			catch (ArgumentNullException) {
@@ -880,7 +879,8 @@ namespace FinallyBeyondTheTime
 				if (oldPassive4 != null) {
 					Debug.Log("Finall: PassiveReplacer: Replacing passive 180001 with Finnal version.");
 					battleUnitModel.passiveDetail.DestroyPassive(oldPassive4);
-					battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_180001_Finnal());
+					var newPassive4 = battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_180001_Finnal());
+					newPassive4.OnWaveStart();
 				}
 			}
 			catch (ArgumentNullException) {
@@ -891,22 +891,25 @@ namespace FinallyBeyondTheTime
 				if (oldPassive5 != null) {
 					Debug.Log("Finall: PassiveReplacer: Replacing passive 180002 with Finnal version.");
 					battleUnitModel.passiveDetail.DestroyPassive(oldPassive5);
-					battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_180002_Finnal());
+					var newPassive5 = battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_180002_Finnal());
+					newPassive5.OnWaveStart();
 				}
 			}
 			catch (ArgumentNullException) {
 				// Debug.LogError("Finall: PassiveReplacer: Passive 180002 not found.");
 			}
 			try {
-				PassiveAbilityBase oldPassive6 = battleUnitModel.passiveDetail.PassiveList.Find((PassiveAbilityBase x) => x is PassiveAbility_250227);
-				if (oldPassive6 != null) {
+				PassiveAbilityBase oldPassivePT = battleUnitModel.passiveDetail.PassiveList.Find((PassiveAbilityBase x) => x is PassiveAbility_250227);
+				if (oldPassivePT != null) {
 					Debug.Log("Finall: PassiveReplacer: Replacing passive 250227 with Finnal version.");
-					battleUnitModel.passiveDetail.DestroyPassive(oldPassive6);
-					battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_250227_Finnal());
+					var oldTypePT = oldPassivePT.GetType();
+					var newPassivePT = battleUnitModel.passiveDetail.AddPassive(new PassiveAbility_250227_Finnal());
+					battleUnitModel.passiveDetail.DestroyPassive(oldPassivePT);
+					newPassivePT.OnWaveStart();
 				}
 			}
-			catch (ArgumentNullException) {
-				// Debug.LogError("Finall: PassiveReplacer: Passive 250227 not found.");
+			catch (Exception ex) {
+				Debug.LogException(ex);
 			}
 			try {
 				PassiveAbilityBase oldPassive7 = battleUnitModel.passiveDetail.PassiveList.Find((PassiveAbilityBase x) => x is PassiveAbility_1410014);
@@ -920,7 +923,7 @@ namespace FinallyBeyondTheTime
 			}
 		}
 
-		private BattleUnitModel pt = new BattleUnitModel(50035);
+		internal BattleUnitModel pt;
 
 		private int phase;
 		private SephirahType currentFloor;
