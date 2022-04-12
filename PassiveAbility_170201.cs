@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 #pragma warning disable IDE0051,IDE0059,IDE0051
 
-namespace FinallyBeyondTheTime
+namespace FinallyBeyondTheTime.PassiveAbilities
 {
 	public class PassiveAbility_170201_Finnal : PassiveAbilityBase
 	{

@@ -1,47 +1,34 @@
 using System;
 using System.Collections.Generic;
-#pragma warning disable IDE0051,IDE0059,IDE0051
+using UI;
 
-namespace FinallyBeyondTheTime
+namespace FinallyBeyondTheTime.PassiveAbilities
 {
-	public class PassiveAbility_170101_Finnal : PassiveAbilityBase
+	public class PassiveAbility_170101_Finnal : PassiveAbility_170101
 	{
-		public override void OnWaveStart()
-		{
-		}
-
 		public override void OnRoundEndTheLast()
 		{
-			base.OnRoundEndTheLast();
-			this.CreateEnemys();
+			CreateEnemys();
 		}
 
-		public void CreateEnemys()
-		{
-			int num = 0;
-			if (!(this.owner.hp <= 300f))
-			{
-				List<BattleUnitModel> list = BattleObjectManager.instance.GetList(Faction.Enemy).FindAll((BattleUnitModel x) => x.IsDead() && x != this.owner);
-				if (!(list.Count == 0))
-				{
-					foreach (BattleUnitModel battleUnitModel in list)
-					{
-						num++;
-						if (num > 4)
-						{
-							break;
-						}
-						BattleUnitModel battleUnitModel2 = Singleton<StageController>.Instance.AddNewUnit(Faction.Enemy, this.CREATE_ENEMY_ID, battleUnitModel.index, -1);
-						if (battleUnitModel2 != null)
-						{
-							battleUnitModel2.SetDeadSceneBlock(false);
-							this.owner.SetHp((int)this.owner.hp - 50);
-						}
-					}
+		new public void CreateEnemys() {
+			return; //TODO Change Hatching Dead
+			if (owner.hp <= 300.0)
+				return;
+			List<BattleUnitModel> all = BattleObjectManager.instance.GetList(Faction.Enemy).FindAll(x => x.IsDead() && x != owner);
+			if (all.Count == 0)
+				return;
+			foreach (BattleUnitModel battleUnitModel1 in all) {
+				BattleUnitModel battleUnitModel2 = Singleton<StageController>.Instance.AddNewUnit(Faction.Enemy, CREATE_ENEMY_ID, battleUnitModel1.index);
+				if (battleUnitModel2 != null) {
+					battleUnitModel2.SetDeadSceneBlock(false);
+					owner.SetHp((int) owner.hp - 50);
 				}
 			}
+			int num = 0;
+			foreach (BattleUnitModel battleUnitModel in (IEnumerable<BattleUnitModel>) BattleObjectManager.instance.GetList())
+				SingletonBehavior<UICharacterRenderer>.Instance.SetCharacter(battleUnitModel.UnitData.unitData, num++, true);
+			BattleObjectManager.instance.InitUI();
 		}
-
-		private readonly int CREATE_ENEMY_ID = 60106;
 	}
 }

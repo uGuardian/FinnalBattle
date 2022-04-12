@@ -11,6 +11,7 @@ namespace FinallyBeyondTheTime {
 		public bool ScatterMode = false;
 		public bool PlutoOff = false;
 		public bool DiceSpeedUp = true;
+		public int HardmodeHead = 0;
 
 		public static byte HarmonyMode = 0;
 		public static FinnalConfig Instance = new FinnalConfig();
@@ -27,12 +28,12 @@ namespace FinallyBeyondTheTime {
 					Singleton<ModContentManager>.Instance.AddErrorLog("Finnal Battle: Finnal.ini invalid, resetting it");
 				}
 			}
-            File.WriteAllText(configFile, JsonUtility.ToJson(FinnalConfig.Instance, prettyPrint: true));
-	    }
-		internal void EchoAll() {
-			Debug.Log("Finall: "+JsonUtility.ToJson(FinnalConfig.Instance, prettyPrint: true));
-			Debug.Log("Finall: HarmonyMode = "+FinnalConfig.HarmonyMode);
+			File.WriteAllText(configFile, JsonUtility.ToJson(FinnalConfig.Instance, prettyPrint: true));
 		}
-        internal string configFile = SaveManager.GetFullPath("ModConfigs\\Finnal.ini");
+		internal void EchoAll() {
+			Debug.Log("Finnal: "+JsonUtility.ToJson(FinnalConfig.Instance, prettyPrint: true));
+			Debug.Log("Finnal: HarmonyMode = "+FinnalConfig.HarmonyMode);
+		}
+		internal string configFile = SaveManager.GetFullPath("ModConfigs/Finnal.ini");
 	}
 }
