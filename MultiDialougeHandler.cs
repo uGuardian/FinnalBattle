@@ -77,7 +77,7 @@ namespace FinallyBeyondTheTime {
 					dialog.FadeOut();
 				}
 			}
-			public List<string> yanDlgIdList = new List<string>{
+			readonly public List<string> yanDlgIdList = new List<string>{
 				"Index_Yan_1",
 				"Index_Yan_2",
 				"Index_Yan_3",
