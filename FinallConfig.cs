@@ -12,6 +12,8 @@ namespace FinallyBeyondTheTime {
 		public bool PlutoOff = false;
 		public bool DiceSpeedUp = true;
 		public int HardmodeHead = 0;
+		public int XiaoNullStart = 0;
+		public int XiaoNullCooldown = 1;
 
 		public static byte HarmonyMode = 0;
 		public static FinnalConfig Instance = new FinnalConfig();

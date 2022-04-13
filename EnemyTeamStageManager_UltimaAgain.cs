@@ -1,3 +1,6 @@
+#if DEBUG
+#endif
+
 #if DEBUG_CryingChildren
 #warning Compiled with CryingChildren debug option
 #endif
@@ -14,7 +17,6 @@ namespace FinallyBeyondTheTime
 {
 	public partial class EnemyTeamStageManager_UltimaAgain : EnemyTeamStageManager
 	{
-
 		public override void OnWaveStart()
 		{
 			this.phase = 0;
@@ -22,31 +24,41 @@ namespace FinallyBeyondTheTime
 			#warning Compiled with PhaseSkip debug option
 			this.phase = 6;
 			#endif
-			this.currentFloor = Singleton<StageController>.Instance.GetCurrentStageFloorModel().Sephirah;
-			Debug.Log("Finnal: Initial floor is " + this.currentFloor);
+			currentFloor = Singleton<StageController>.Instance.GetCurrentStageFloorModel().Sephirah;
+			Debug.Log("Finnal: Initial floor is " + currentFloor);
 			angelaappears = false;
-			this.remains.Clear();
+			remains.Clear();
 			foreach (LibraryFloorModel libraryFloorModel in LibraryModel.Instance.GetOpenedFloorList())
 			{
 				if (libraryFloorModel.GetUnitDataList().Count > 0)
 				{
 					StageLibraryFloorModel stageLibraryFloorModel = new StageLibraryFloorModel();
 					stageLibraryFloorModel.Init(Singleton<StageController>.Instance.GetStageModel(), libraryFloorModel, isRebattle: false);
-					if (stageLibraryFloorModel.Sephirah != this.currentFloor || this.currentFloor == SephirahType.Keter)
+					if (stageLibraryFloorModel.Sephirah != currentFloor || currentFloor == SephirahType.Keter)
 					{
-						this.remains.Add(stageLibraryFloorModel);
+						remains.Add(stageLibraryFloorModel);
 					} else {
-						Debug.Log("Finnal: Floor list skipping over " + this.currentFloor);
+						Debug.Log("Finnal: Floor list skipping over " + currentFloor);
 					}
 				}
 			}
-			if (this.currentFloor != SephirahType.Keter)
+			if (currentFloor != SephirahType.Keter)
 			{
 				Debug.Log("Finnal: Inserting Keter at top of floor list");
-				this.remains.Insert(0, this.remains[this.remains.Count - 1]);
+				remains.Insert(0, remains[remains.Count - 1]);
 			}
 			// finnalFormation = new FormationModel(Singleton<StageController>.Instance.GetCurrentWaveModel().GetFormation().XmlInfo);
 			// curPhase = Phase.FIRST; // This is to trick hardcoded logic.
+			XiaoNullSettingCheck();
+		}
+		void XiaoNullSettingCheck() {
+			if (FinnalConfig.Instance.XiaoNullStart < 0) {
+				passives.Add(typeof(PassiveAbility_150238), null);
+			} else if (FinnalConfig.Instance.XiaoNullStart == 0 && FinnalConfig.Instance.XiaoNullCooldown == 1) {
+				return;
+			} else {
+				passives.Add(typeof(PassiveAbility_150238), typeof(PassiveAbility_150238_Finnal));
+			}
 		}
 
 		public override void OnRoundEndTheLast()
@@ -1139,6 +1151,9 @@ namespace FinallyBeyondTheTime
 			{typeof(PassiveAbility_150138), typeof(PassiveAbility_150138_Finnal)},
 			{typeof(PassiveAbility_151139), typeof(PassiveAbility_151139_Finnal)},
 			{typeof(PassiveAbility_230028), typeof(PassiveAbility_230028_Finnal)},
+
+			// Passive replacements handled by settings
+			// PassiveAbility_150238, XiaoNullSettingCheck()
 		};
 		public readonly List<PassiveAbilityBase> passiveAbility_240528_list = new List<PassiveAbilityBase>();
 
