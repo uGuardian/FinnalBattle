@@ -4,6 +4,11 @@ namespace FinallyBeyondTheTime.PassiveAbilities
 		public override void OnWaveStart() {
 			_patternCount = FinnalConfig.Instance.XiaoNullStart + 1;
 		}
+		public override void OnCreated() {
+			name = Singleton<PassiveDescXmlList>.Instance.GetName(150238);
+			desc = Singleton<PassiveDescXmlList>.Instance.GetDesc(150238);
+			base.OnCreated();
+		}
 
 		public override void OnRoundStart() {
 			_patternCount--;

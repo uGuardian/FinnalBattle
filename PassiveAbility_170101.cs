@@ -10,6 +10,11 @@ namespace FinallyBeyondTheTime.PassiveAbilities
 		{
 			CreateEnemys();
 		}
+		public override void OnCreated() {
+			name = Singleton<PassiveDescXmlList>.Instance.GetName(170101);
+			desc = Singleton<PassiveDescXmlList>.Instance.GetDesc(170101);
+			base.OnCreated();
+		}
 
 		new public void CreateEnemys() {
 			return; //TODO Change Hatching Dead

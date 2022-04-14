@@ -19,9 +19,19 @@ namespace FinallyBeyondTheTime.PassiveAbilities {
 			this._defeated = true;
 			this.owner.view.charAppearance.ChangeMotion(ActionDetail.Damaged);
 		}
+		public override void OnCreated() {
+			name = Singleton<PassiveDescXmlList>.Instance.GetName(150036);
+			desc = Singleton<PassiveDescXmlList>.Instance.GetDesc(150036);
+			base.OnCreated();
+		}
 	}
 	public class PassiveAbility_150037_Finnal : PassiveAbility_150037 {
 		public override void OnRoundStart() {}
+		public override void OnCreated() {
+			name = Singleton<PassiveDescXmlList>.Instance.GetName(150037);
+			desc = Singleton<PassiveDescXmlList>.Instance.GetDesc(150037);
+			base.OnCreated();
+		}
 	}
 	/* This can be removed outright
 	public class PassiveAbility_230013_Finnal : PassiveAbility_230013 {
@@ -30,9 +40,19 @@ namespace FinallyBeyondTheTime.PassiveAbilities {
 	*/
 	public class PassiveAbility_230124_Finnal : PassiveAbility_230124 {
 		public override void OnRoundStart() {}
+		public override void OnCreated() {
+			name = Singleton<PassiveDescXmlList>.Instance.GetName(230124);
+			desc = Singleton<PassiveDescXmlList>.Instance.GetDesc(230124);
+			base.OnCreated();
+		}
 	}
 	public class PassiveAbility_1300001_Finnal : PassiveAbility_1300001 {
 		public override void OnRoundStart() {}
+		public override void OnCreated() {
+			name = Singleton<PassiveDescXmlList>.Instance.GetName(1300001);
+			desc = Singleton<PassiveDescXmlList>.Instance.GetDesc(1300001);
+			base.OnCreated();
+		}
 	}
 	public class PassiveAbility_150138_Finnal : PassiveAbility_150138 {
 		public override void OnRoundStart() {
@@ -40,9 +60,19 @@ namespace FinallyBeyondTheTime.PassiveAbilities {
 			foreach (BattleUnitModel battleUnitModel in aliveList)
 				battleUnitModel.bufListDetail.AddKeywordBufByEtc(KeywordBuf.Burn, 2);
 		}
+		public override void OnCreated() {
+			name = Singleton<PassiveDescXmlList>.Instance.GetName(150138);
+			desc = Singleton<PassiveDescXmlList>.Instance.GetDesc(150138);
+			base.OnCreated();
+		}
 	}
 	public class PassiveAbility_151139_Finnal : PassiveAbility_151139 {
 		public override void OnRoundStart() {}
+		public override void OnCreated() {
+			name = Singleton<PassiveDescXmlList>.Instance.GetName(151139);
+			desc = Singleton<PassiveDescXmlList>.Instance.GetDesc(151139);
+			base.OnCreated();
+		}
 	}
 	/* Black Silence MapReset methods are unused and do not need to be overridden.
 	public class PassiveAbility_170301_Finnal : PassiveAbility_170301 {}
@@ -110,6 +140,11 @@ namespace FinallyBeyondTheTime.PassiveAbilities {
 				}
 				++_patternCount;
 			}
+		}
+		public override void OnCreated() {
+			name = Singleton<PassiveDescXmlList>.Instance.GetName(230028);
+			desc = Singleton<PassiveDescXmlList>.Instance.GetDesc(230028);
+			base.OnCreated();
 		}
 	}
 }

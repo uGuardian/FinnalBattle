@@ -4,6 +4,11 @@ namespace FinallyBeyondTheTime.PassiveAbilities
 {
 	public class PassiveAbility_250227_Finnal : PassiveAbility_250227
 	{
+		public override void OnCreated() {
+			name = Singleton<PassiveDescXmlList>.Instance.GetName(250227);
+			desc = Singleton<PassiveDescXmlList>.Instance.GetDesc(250227);
+			base.OnCreated();
+		}
 		public override void OnRoundEndTheLast()
 		{
 			if (owner.UnitData.floorBattleData.param2 <= 0 && (_teleportReady || owner.hp <= _teleportCondition))

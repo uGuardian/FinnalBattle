@@ -1,6 +1,11 @@
 namespace FinallyBeyondTheTime.PassiveAbilities
 {
 	public class PassiveAbility_180001_Finnal : PassiveAbility_180001 {
+		public override void OnCreated() {
+			name = Singleton<PassiveDescXmlList>.Instance.GetName(180001);
+			desc = Singleton<PassiveDescXmlList>.Instance.GetDesc(180001);
+			base.OnCreated();
+		}
 		public override void OnWaveStart() {
 			_stageManager = (Singleton<StageController>.Instance.EnemyStageManager as EnemyTeamStageManager_UltimaAgain)?.FFH;
 			SetStartingCards();
@@ -23,6 +28,11 @@ namespace FinallyBeyondTheTime.PassiveAbilities
 		}
 	}
 	public class PassiveAbility_180002_Finnal : PassiveAbility_180002 {
+		public override void OnCreated() {
+			name = Singleton<PassiveDescXmlList>.Instance.GetName(180002);
+			desc = Singleton<PassiveDescXmlList>.Instance.GetDesc(180002);
+			base.OnCreated();
+		}
 		public override void OnWaveStart() {
 			_stageManager = (Singleton<StageController>.Instance.EnemyStageManager as EnemyTeamStageManager_UltimaAgain)?.FFH;
 			SetStartingCards();

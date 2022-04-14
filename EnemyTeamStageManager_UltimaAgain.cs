@@ -25,7 +25,7 @@ namespace FinallyBeyondTheTime
 			this.phase = 6;
 			#endif
 			currentFloor = Singleton<StageController>.Instance.GetCurrentStageFloorModel().Sephirah;
-			Debug.Log("Finnal: Initial floor is " + currentFloor);
+			Debug.Log($"Finnal: Initial floor is {currentFloor}");
 			angelaappears = false;
 			remains.Clear();
 			foreach (LibraryFloorModel libraryFloorModel in LibraryModel.Instance.GetOpenedFloorList())
@@ -38,7 +38,7 @@ namespace FinallyBeyondTheTime
 					{
 						remains.Add(stageLibraryFloorModel);
 					} else {
-						Debug.Log("Finnal: Floor list skipping over " + currentFloor);
+						Debug.Log($"Finnal: Floor list skipping over {currentFloor}");
 					}
 				}
 			}
@@ -79,6 +79,11 @@ namespace FinallyBeyondTheTime
 			if (FinnalConfig.HarmonyMode == 0) {
 				SingletonBehavior<BattleManagerUI>.Instance.ui_emotionInfoBar.targetingToggle.SetToggle(0, false);
 			}
+			switch (phase) {
+				case 10:
+					BSH.CheckPhase();
+					break;
+			}
 		}
 
 		public override bool IsStageFinishable()
@@ -93,13 +98,14 @@ namespace FinallyBeyondTheTime
 
 		public override void OnRoundStart()
 		{
-			if (passiveAbility_240528_list.Count != 0) {
+			if (passiveAbility_240528_list.Count > 0) {
 				if (!passiveAbility_240528_list.All(passive => passive.destroyed) && !passiveAbility_240528_list.All(passive => passive.Owner.IsDead())) {
 					List<BattleUnitModel> aliveList = BattleObjectManager.instance.GetAliveList(Faction.Player);
-					Debug.Log("Finnal: ChildImmobilizeNerf = "+FinnalConfig.Instance.ChildImmobilizeNerf);
-					if (aliveList.Count > 1 || !FinnalConfig.Instance.ChildImmobilizeNerf && aliveList.Count > 0)
-					{
+					// Debug.Log("Finnal: ChildImmobilizeNerf = "+FinnalConfig.Instance.ChildImmobilizeNerf);
+					if (aliveList.Count > 1 || !FinnalConfig.Instance.ChildImmobilizeNerf && aliveList.Count > 0) {
 						RandomUtil.SelectOne(aliveList).bufListDetail.AddKeywordBufThisRoundByCard(KeywordBuf.Stun, 1, actor: null);
+					} else {
+						Debug.Log($"Finnal: ChildImmobilizeNerf = {FinnalConfig.Instance.ChildImmobilizeNerf}");
 					}
 				} else {
 					passiveAbility_240528_list.Clear();
@@ -107,6 +113,11 @@ namespace FinallyBeyondTheTime
 			}
 			// Related to BGM
 			PhaseMapCheck();
+			switch (phase) {
+				case 10:
+					BSH.PsuedoManager.StartPhaseRound();
+					break;
+			}
 		}
 		AudioClip bsTheme;
 		private void PhaseMapCheck() {
@@ -341,11 +352,14 @@ namespace FinallyBeyondTheTime
 		#endif
 
 		public readonly CryingChildrenHandler CCH = new CryingChildrenHandler();
+		// public static implicit operator EnemyTeamStageManager_TheCrying(EnemyTeamStageManager_UltimaAgain m) => m.PsuedoCry;
 		public readonly BlackSilenceHandler BSH = new BlackSilenceHandler();
+		// public static implicit operator EnemyTeamStageManager_BlackSilence(EnemyTeamStageManager_UltimaAgain m) => m.BSH.PsuedoManager;
 		public readonly MultiDialougeHandler MDH = new MultiDialougeHandler();
 		public readonly EnemyTeamStageManager_FinalFinal FFH = new EnemyTeamStageManager_FinalFinal {
 			_currentPhase = EnemyTeamStageManager_FinalFinal.FinalPhase.BinahEnterBattle
 		};
+		// public static implicit operator EnemyTeamStageManager_FinalFinal(EnemyTeamStageManager_UltimaAgain m) => m.FFH;
 		public bool FFH_Active = false;
 
 		public List<int> GetPhaseGuest(int phase)
@@ -646,7 +660,7 @@ namespace FinallyBeyondTheTime
 					CleanUp();
 				}
 				phase++;
-				Debug.Log("Finnal: Starting Phase Transition, new phase is " + phase);
+				Debug.Log($"Finnal: Starting Phase Transition, new phase is {phase}");
 				if (phase <= 12)
 				{
 					foreach (BattleUnitModel battleUnitModel in BattleObjectManager.instance.GetAliveList(Faction.Player))
@@ -1023,12 +1037,12 @@ namespace FinallyBeyondTheTime
 					loopCounter++;
 					if (new[] {8192, 16384, 32768}.Contains(loopCounter)) {
 						minClosestDistance /= 2;
-						Debug.Log(current+": Too many loops, dropping max distance to "+minClosestDistance);
+						Debug.Log($"{current}: Too many loops, dropping max distance to {minClosestDistance}");
 					}
 				}
-				Debug.Log("Finnal: PosShuffle: Found "+current+" points in "+loopCounter+" tries");
+				Debug.Log($"Finnal: PosShuffle: Found {current} points in {loopCounter} tries");
 				if (current != maxPoints) {
-					Debug.Log("Finnal: PosShuffle: Filling in "+(maxPoints-current)+" out of "+maxPoints+" entries");
+					Debug.Log($"Finnal: PosShuffle: Filling in {maxPoints - current} out of {maxPoints} entries");
 					while (current < maxPoints) {
 						x[current] = RandomUtil.Range(1, 26);
 						y[current] = RandomUtil.Range(-12, 12);
@@ -1095,7 +1109,7 @@ namespace FinallyBeyondTheTime
 					battleUnitModel.formation.ChangePos(newPos[i]);
 					i++;
 				}
-				Debug.Log("Finnal: PosShuffle: Arranged "+maxPoints+" characters");
+				Debug.Log($"Finnal: PosShuffle: Arranged {maxPoints} characters");
 			}
 		}
 		public void PassiveReplacer(BattleUnitModel battleUnitModel) {
